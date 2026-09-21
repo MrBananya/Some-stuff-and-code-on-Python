@@ -1,0 +1,29 @@
+
+char_items = []
+items_in_game = [
+        {"id": 0, "Предмет": "Трава", "Количество": 0, "Цена": 0.1},
+        {"id": 1, "Предмет": "Дерево", "Количество": 0, "Цена": 0.3},
+        {"id": 2, "Предмет": "Камень", "Количество": 0, "Цена": 0.2}
+    
+    ]
+for item in items_in_game:
+    new_item = item.copy()
+    char_items.append(new_item)
+
+char_items[0]["Количество"] += 1
+
+
+def remove_item_by_id(item_list, item_id):
+    for item in item_list:
+        if item["id"] == item_id:
+            item_list.remove(item)
+            break  
+
+
+remove_item_by_id(char_items, 1)
+
+for item in char_items:
+    print(item)
+print("")
+for item in items_in_game:
+    print(item)

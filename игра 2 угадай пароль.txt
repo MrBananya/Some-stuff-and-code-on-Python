@@ -1,0 +1,54 @@
+import random
+
+class bcolors:
+    Green = '\033[92m'
+    Yellow = '\033[93m'
+    Red = '\033[91m'
+    Reset = '\033[0m'  # Сброс цвета
+
+password = []
+user_gues = []
+
+def password_generate():
+    num_gues = 4
+    seen = set()  # Множество для отслеживания уникальных чисел
+    while num_gues != 0:
+        rnd = random.randint(0, 9)
+        if rnd not in seen:  # Проверяем, было ли число уже сгенерировано
+            password.append(rnd)
+            seen.add(rnd)  # Добавляем число в множество
+            num_gues -= 1
+
+def input_check():
+    for i in range(len(user_gues)):
+        if user_gues[i] == password[i]:
+            print(bcolors.Green + str(user_gues[i]) + bcolors.Reset, end=' ')
+        elif user_gues[i] in password:
+            print(bcolors.Yellow + str(user_gues[i]) + bcolors.Reset, end=' ')
+        else:
+            print(bcolors.Red + str(user_gues[i]) + bcolors.Reset, end=' ')
+    print()  # Для новой строки после вывода
+
+def game_start():
+    max_attempts = 5  # Максимальное количество попыток
+    for attempt in range(max_attempts):
+        user_gues.clear()  # Очищаем предыдущие попытки
+        print(f"Попытка {attempt + 1} из {max_attempts}. Введите 4-х значное число:")
+        
+        while len(user_gues) < 4:
+            inp = int(input())
+            user_gues.append(inp)
+        
+        print("Ваши попытки:", user_gues)
+        input_check()
+        
+        # Проверяем, угадал ли пользователь пароль
+        if user_gues == password:
+            print(bcolors.Green + "Поздравляем! Вы угадали пароль!" + bcolors.Reset)
+            return  # Завершаем игру, если пароль угадан
+
+    print(bcolors.Red + "Вы исчерпали все попытки. Пароль был: " + str(password) + bcolors.Reset)
+
+password_generate()
+print("Сгенерированный пароль:", password)
+game_start()

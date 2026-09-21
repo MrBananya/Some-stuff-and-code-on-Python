@@ -1,0 +1,20 @@
+
+
+
+dict_1 = []
+
+def add_item(key, count):
+    for item in dict_1:
+        if item['Предмет'] == key:
+            item["Количество"] += count
+            return
+    dict_1.append({'Предмет': key, 'Количество': count})
+
+add_item("Предмет1", 1)
+add_item("Предмет1", 1)  
+add_item("Предмет2", 2)  
+add_item("Предмет1", 1)  
+add_item("Предмет2", 2) 
+add_item("Предмет3", 3) 
+
+print(dict_1)  

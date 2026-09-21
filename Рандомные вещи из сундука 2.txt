@@ -1,0 +1,102 @@
+import os
+import random
+import time
+import threading
+
+class items_backpack:
+    def __init__(self):
+        self.items = []
+
+    def items_view(self):
+        if len(self.items) != 0:
+            for item in self.items:
+                print(item)
+            new_case = str(input())
+            game_start()
+        else:
+            print("Тут пока пусто")
+            time.sleep(1)
+            game_start()
+
+
+def item_create(item_chance):
+            #       100         50          25          10              1
+    item_rare = ["Обычное", "Необычное", "Редкое", "Эпическое", "Легендарное"]
+
+    if item_chance <= 100:
+        item_chance = random_chanse()
+        
+        if item_chance <= 50:
+            item_chance = random_chanse()
+            
+            if item_chance <= 25:
+                item_chance = random_chanse()
+                
+                if item_chance <= 10:
+                    item_chance = random_chanse()
+                
+                    if item_chance <= 1:
+                        item_drop_item = item_rare[4]
+                        return item_drop_item
+                    else:
+                        item_drop_item = item_rare[3]
+                        return item_drop_item
+                else:
+                    item_drop_item = item_rare[2]
+                    return item_drop_item
+            else:
+                item_drop_item = item_rare[1]
+                return item_drop_item
+        else:
+            item_drop_item = item_rare[0]
+            return item_drop_item
+        
+    
+def random_chanse():
+    rnd_item_rare = random.randint(1, 100)
+    return rnd_item_rare
+
+
+def chest_open():
+    rnd_chance = random_chanse()
+    new_item = item_create(rnd_chance)
+    item_exists = any(item["Редкость"] == new_item for item in items_backpack.items)
+    if item_exists:
+        for item in items_backpack.items:
+            if item["Редкость"] == new_item:
+                item["Количество"] += 1
+    else:
+        new_item = {"Редкость": new_item, "Количество": 1}
+        items_backpack.items.append(new_item)
+    time.sleep(1)
+    game_start()
+    
+
+    
+
+def game_start():
+    os.system('clear')
+    print(f"1 - Открыть сундук")
+    print(f"2 - Посмотреть инвентарь")
+    new_case = str(input())
+    match new_case:
+        case "1":
+            chest_open()
+        case "2":
+            items_backpack.items_view()
+            
+items_backpack = items_backpack()
+game_start()
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            

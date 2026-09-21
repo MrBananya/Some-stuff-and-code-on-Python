@@ -1,0 +1,20 @@
+import os
+import time
+
+while True:
+    print("             ______")
+    print("    _-_-  _/\______\\__")
+    print(" _-_-__  / ,-. -|-  ,-.`-.")
+    print("hjw _-_- `( o )----( o )-'")
+    print("           `-'      `-'")
+    time.sleep(1)
+    os.system('clear')
+    
+    print("             ______")
+    print("  _-_-    _/\______\\__")
+    print(" _-__    / ,-. -|-  ,-.`-.")
+    print("w _-_-   `( o )----( o )-'")
+    print("           `-'      `-'")
+    time.sleep(1)
+    os.system('clear')
+    

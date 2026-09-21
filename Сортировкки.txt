@@ -1,0 +1,71 @@
+import random
+import time
+
+test_array = [5,6,7,8,9,4,1,3,2]
+new_array = []
+
+tmp = 0
+max_num = 10000
+while tmp != max_num:
+    new_array.append(random.randint(0,max_num))
+    tmp+=1
+
+def some_sort(arr_num):
+    arr_len = len(arr_num)
+    while arr_len != 0:
+        for i in range(0, len(arr_num)-1):
+            if arr_num[i] > arr_num[i+1]:
+                tmp = arr_num[i]
+                arr_num[i] = arr_num[i+1]
+                arr_num[i+1] = tmp
+        arr_len -= 1
+
+#Пузырьковая 
+def bubble(list_nums):  
+    swap_bool = True
+    while swap_bool:
+        swap_bool = False
+        for i in range(len(list_nums) - 1):
+            if list_nums[i] > list_nums[i + 1]:
+                list_nums[i], list_nums[i + 1] = list_nums[i + 1], list_nums[i]
+                swap_bool = True
+                
+#вставками 
+def insertion(list_nums):  
+    for i in range(1, len(list_nums)):
+        item = list_nums[i]
+        i2 = i - 1
+        while i2 >= 0 and list_nums[i2] > item:
+            list_nums[i2 + 1] = list_nums[i2]
+            i2 -= 1
+        list_nums[i2 + 1] = item
+        
+#выборкой
+def selection(sort_nums):  
+    for i in range(len(sort_nums)):
+        index = i
+        for j in range(i + 1, len(sort_nums)):
+            if sort_nums[j] < sort_nums[index]:
+                index = j
+        sort_nums[i], sort_nums[index] = sort_nums[index], sort_nums[i]
+
+def gnome(data):
+    i, size = 1, len(data)
+    while i < size:
+        if data[i - 1] <= data[i]:
+            i += 1
+        else:
+            data[i - 1], data[i] = data[i], data[i - 1] 
+            if i > 1:
+                i -= 1
+    return data
+
+start_time = time.time()
+
+
+
+end_time = time.time()
+
+# Вывод результата и времени
+print("Отсортированный массив:", new_array)
+print("Время выполнения сортировки: {:.6f} секунд".format(end_time - start_time))

@@ -1,0 +1,22 @@
+
+import os
+from time import sleep
+import random
+
+char_arr = ["a","w","s","d"]
+score = 0
+
+while True:
+    print("Your score = ", score)
+    rnd_char = random.choice(char_arr)
+    print(rnd_char)
+    inp_char = input()
+    if rnd_char == inp_char:
+        score+=1
+        os.system('clear')
+    else:
+        break
+
+os.system('clear')
+print("game over")
+print("Your score = ", score)

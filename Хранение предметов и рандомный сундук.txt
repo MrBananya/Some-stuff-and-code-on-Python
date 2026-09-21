@@ -1,0 +1,54 @@
+import random
+
+class Item:
+    def __init__(self, name, damage=0, armor=0):
+        self.name = name
+        self.damage = damage
+        self.armor = armor
+
+    def __str__(self):
+        if self.damage > 0:
+            return f"{self.name} (Урон: {self.damage})"
+        elif self.armor > 0:
+            return f"{self.name} (Защита: {self.armor})"
+        return self.name
+
+class Person:
+    def __init__(self):
+        self.items = []
+
+    def add_item(self, item):
+        self.items.append(item)
+
+    def show_items(self):
+        if not self.items:
+            print("У игрока нет вещей")
+        else:
+            print("У игрока следующие вещи:")
+            for item in self.items:
+                print(item)
+
+def open_chest():
+    chest_items = ["Оружие", "Броня"]
+    item_type = random.choice(chest_items)
+    
+    if item_type == "Оружие":
+        dmg = random.randint(1, 10)
+        item = Item(name="Оружие", damage=dmg)
+        print(f"Вам выпало {item}")
+    elif item_type == "Броня":
+        arm = random.randint(1, 10)
+        item = Item(name="Броня", armor=arm)
+        print(f"Вам выпала {item}")
+    
+    return item
+
+# Создаем героя
+hero = Person()
+
+# Открываем сундук и добавляем предмет в инвентарь героя
+item = open_chest()
+hero.add_item(item)
+
+# Показываем предметы героя
+hero.show_items()

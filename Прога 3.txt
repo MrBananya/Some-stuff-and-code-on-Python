@@ -1,0 +1,74 @@
+import os
+
+class Person:
+    def __init__(self, name, age):
+        self.name = name    # имя человека
+        self.age = age      # возраст человека
+        self.money = 10
+    
+    def message(self): 
+        print(" Name:", self.name, " Age:", self.age, " Money:", self.money)
+        
+def money_manip(persons):
+    print("Введите имя")
+    name = str(input())
+    for person in persons:
+        if person.name == name:
+            print("На сколько изменить")
+            while True:
+                try:
+                    num = int(input())
+                    break
+                except:
+                    print("Данные были введены не верно. Введите численные данные")
+            person.money += num
+        else:
+            print("Нет такого человека")
+    
+    
+def new_pers_create(persons):
+    print("Введите имя")
+    char_name = str(input())
+    while True:
+        try:
+            print("Введите возраст")
+            char_age = int(input())
+            if 0 < char_age < 100:
+                break
+            else:
+                print("Введите дату от 0 до 100")
+        except:
+            print("Неверный формат ввода")
+    new_char = Person(char_name, char_age)
+    persons.append(new_char)  # Добавляем нового персонажа в список
+
+def display_persons(persons):
+    if not persons:
+        print("Нет созданных пользователей.")
+    else:
+        for person in persons:
+            person.message()
+
+
+
+persons = []  # Список для хранения созданных пользователей
+
+while True:
+    print("")
+    print("Что хотите сделать?")
+    print("1 - Создать пользователя")
+    print("2 - Вывести информацию")
+    print("3 - Манипуляция с деньгами")
+    new_case = str(input())
+    match new_case:
+        case "1":
+            os.system('clear')
+            new_pers_create(persons)
+        case "2":
+            os.system('clear')
+            display_persons(persons)
+        case "3":
+            os.system('clear')
+            money_manip(persons)
+
+

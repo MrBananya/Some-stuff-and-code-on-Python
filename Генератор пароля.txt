@@ -1,0 +1,36 @@
+import random
+import string
+
+def randomchoose():
+    rndnum = random.randint(0,2)
+    if rndnum == 0:
+        number = str(random.randint(1, 9))
+    elif rndnum == 1:
+        number = random.choice(string.punctuation) # символы
+    elif rndnum == 2:
+        number = random.choice(string.ascii_letters) # буквы
+    return number
+    
+def numbergen(a):
+    password = ""
+    i = 0
+    while i < a:
+        password += randomchoose()
+        i+=1
+    return password
+
+def manypass():
+    arr = []
+    tmp = 0
+    while tmp < 5:
+        result = numbergen(password_len)
+        arr.append(result)
+        tmp+=1
+    return arr
+
+print("Длина пароля:  ")
+password_len = int(input())
+manypassa = manypass()
+print("Возможные пароли")
+for sim in manypassa:
+    print(sim)

@@ -1,0 +1,229 @@
+import os
+import random
+import time
+import threading
+
+class Person:
+    def __init__(self):
+        self.coin = 0
+        
+        self.hpMAX = 10
+        self.hp = self.hpMAX
+        
+        self.manaMAX = 5
+        self.mana = self.manaMAX
+        
+        self.energyMAX = 100
+        self.energy = self.energyMAX
+        
+        self.strength = 1
+        self.dexterity = 1
+        self.intelligence = 1
+        self.luck = 1
+        
+        self.items = [
+            {"id": 2, "Предмет": "Дерево", "Количество": 50, "Цена": 0.3},
+            {"id": 3, "Предмет": "Камень", "Количество": 50, "Цена": 0.2}
+                ]
+        
+    def write_stats(self):
+        print(f"Здоровье: {self.hp}\t Деньги: {round(self.coin, 2)}")
+        print(f"Мана: {self.mana}\t\t Энергия: {self.energy}")
+        print(f"Зданий построено: {Buildings_in_game.count}")
+        
+    def add_item(self, id_item):
+        item_exists = any(item["id"] == id_item for item in self.items)
+        if item_exists:
+            for tmp_item in self.items:
+                if tmp_item["id"] == id_item:
+                    tmp_item["Количество"] += 1
+                    break  
+        else:
+            for tmp_item in Items_in_game.game_items:
+                if tmp_item["id"] == id_item:
+                    self.items.append(tmp_item.copy())
+                    break  
+
+    def item_view(self):
+        os.system('clear')
+        if len(self.items) == 0:
+            print("У вас пусто")
+            time.sleep(1.5)
+        else:
+            for tmp_item in self.items:
+                print(f"{tmp_item}")
+        time.sleep(1.5)
+        game_start()
+        
+class Items_in_game:
+    def __init__(self):
+        self.game_items = [
+                {"id": 1, "Предмет": "Трава", "Количество": 1, "Цена": 0.1},
+                {"id": 2, "Предмет": "Дерево", "Количество": 1, "Цена": 0.3},
+                {"id": 3, "Предмет": "Камень", "Количество": 1, "Цена": 0.2}
+            
+            
+            
+            ]
+
+class Buildings_in_game:
+    def __init__(self):
+        self.wood = 10
+        self.rock = 5
+        self.count = 0
+        self.income = 0.1
+
+    
+    def build_house(self, id_item_1, id_item_2):
+        item_exists_wood = any(item["id"] == id_item_1 for item in NewChar.items)
+        item_exists_rock = any(item["id"] == id_item_2 for item in NewChar.items)
+        if item_exists_wood and item_exists_rock == True:
+            self.count += 1
+            print("Здание построено")
+            thread1 = threading.Thread(target=self.income_from_house)
+            thread1.start()
+        else:
+            print("Недостаточно материалов")
+        time.sleep(1.5)
+        house_building()
+        
+    def income_from_house(self):
+        while True:
+            NewChar.coin = self.count * self.income
+            time.sleep(1)
+        
+def remove_item_by_id(item_list, item_id):
+    for item in item_list:
+        if item["id"] == item_id:
+            item_list.remove(item)
+            break 
+
+def sell_item():
+    os.system('clear')
+    for tmp_item in NewChar.items:
+        print(f"{tmp_item}")
+    print("Введите что продать?")
+    new_case = int(input())
+
+    item_found = False
+    
+    for tmp_item in NewChar.items:
+        if tmp_item["id"] == new_case:
+            item_found = True
+            NewChar.coin += tmp_item.get("Цена") * tmp_item.get("Количество")
+            NewChar.items.remove(tmp_item)  
+            print("Предмет продан")
+            break  
+    if not item_found:
+        print("Предмет не найден в инвентаре.")
+    time.sleep(1.5)
+    bar_screen()
+
+def harvest_items(item_id):
+    if NewChar.energy >= 10:
+        work_time = 10
+        NewChar.energy -= work_time
+        while work_time > 0:
+            rnd = random.randint(0,5)
+            if rnd == 1:
+                NewChar.add_item(item_id)
+            else:
+                work_time -= 1
+        game_start()
+    else:
+        print("Ты устал для работы")
+        time.sleep(1.5)
+        find_work()
+
+def find_work():
+    os.system('clear')
+    NewChar.write_stats()
+    print("Выбери работу")
+    print(f"1 - Собирать траву")
+    print(f"2 - Рубить деревья")
+    print(f"3 - Добывать камень")
+    print(f"4 - Назад")
+    new_case = str(input())
+    match new_case:
+        case "1":
+            harvest_items(1)
+        case "2":
+            harvest_items(2)
+        case "3":
+            harvest_items(3)
+        case "4":
+            game_start()
+
+
+def game_start():
+    os.system('clear')
+    NewChar.write_stats()
+    print(f"1 - Осмотреть инвентарь")
+    print(f"2 - Пойти в бар")
+    print(f"3 - Отправиться на стройку")
+    new_case = str(input())
+    match new_case:
+        case "1":
+            NewChar.item_view()
+        case "2":
+            bar_screen()
+        case "3":
+            house_building()
+
+
+
+def bar_screen():
+    os.system('clear')
+    NewChar.write_stats()
+    print(f"1 - Найти работу")
+    print(f"2 - Продать вещи")
+    print(f"3 - Отдохнуть")
+    print(f"4 - Назад")
+    new_case = str(input())
+    match new_case:
+        case "1":
+            find_work()
+        case "2":
+            sell_item()
+        case "3":
+            if NewChar.coin <= 0:
+                print("Нет денег для отдыха")
+                time.sleep(2)
+            else:
+                NewChar.coin -= 1
+                NewChar.energy = NewChar.energyMAX
+                print("Ты отдохнул")
+                time.sleep(2)
+            bar_screen()
+        case "4":
+            game_start()
+            
+def house_building():
+    os.system('clear')
+    NewChar.write_stats()
+    print(f"1 - Построить здание")
+    print(f"2 - Посмотреть инвентарь")
+    print(f"3 - Назад")
+    new_case = str(input())
+    match new_case:
+        case "1":
+            Buildings_in_game.build_house(2,3)
+        case "2":
+            NewChar.item_view()
+        case "3":
+            game_start()
+
+
+
+NewChar = Person()
+Items_in_game = Items_in_game()
+Buildings_in_game = Buildings_in_game()
+game_start()
+
+
+
+
+
+
+
+

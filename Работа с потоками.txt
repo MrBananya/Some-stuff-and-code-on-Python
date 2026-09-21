@@ -1,0 +1,70 @@
+import time
+import os
+import threading
+
+coin = 0
+new_butt = False
+lock = threading.Lock()  # Создаем объект блокировки
+
+def income():
+    global coin, new_butt
+    while True:
+        time.sleep(1)
+        with lock:  # Блокируем доступ к переменной coin
+            coin += 1 
+            print(coin, end='\r')
+            if coin >= 10 and new_butt == False:
+                print("1 доступна")
+                new_butt = True
+
+def cases():
+    while True:
+        new_case = input()  # Ожидаем ввода от пользователя
+        with lock:  # Блокируем доступ к переменной new_butt
+            if new_butt:
+                if new_case == "1":
+                    os.system('clear')
+
+thread1 = threading.Thread(target=cases)
+thread2 = threading.Thread(target=income)
+#thread3 = threading.Thread(target=but_check)
+
+thread1.start()
+thread2.start()
+#thread3.start()
+
+
+
+
+import time
+import os
+import threading
+
+coin1 = 0
+coin2 = 0
+def income1():
+    global coin1, coin2
+    while True:
+        time.sleep(1)
+        coin1 += 1
+
+def income2():
+    global coin1, coin2
+    while True:
+        time.sleep(1.5)
+        coin2 += 2
+
+def print_info():
+    while True:
+        print(f"{coin1} =  {coin2}")
+        time.sleep(1)
+
+thread1 = threading.Thread(target=income1)
+thread2 = threading.Thread(target=income2)
+thread3 = threading.Thread(target=print_info)
+#thread3 = threading.Thread(target=but_check)
+
+thread1.start()
+thread2.start()
+thread3.start()
+#thread3.start()
